@@ -18,3 +18,17 @@
 .person-details .list-group-item .term{
   margin-right: .5rem;
 }
+
+.select-person {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.spinner {
+  margin: 1rem;
+}
+
+.card {
+  border: 1px solid #444;
+}
