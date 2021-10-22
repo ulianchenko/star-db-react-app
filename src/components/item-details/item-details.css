@@ -1,8 +1,9 @@
 .item-details {
   display: flex;
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
   flex-direction: row;
   padding: 1rem;
+  border: 1px solid #444;
 }
 
 .item-details .item-image {
@@ -15,7 +16,15 @@
   padding: .25rem;
 }
 
-.item-details .list-group-item .term{
+/* .item-details .list-group-flush {
+  padding: 1.5rem;
+} */
+
+.card-body {
+  padding: 60px 0 60px 20px;
+}
+
+.item-details .list-group-item .term {
   margin-right: .5rem;
 }
 
