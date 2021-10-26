@@ -10,12 +10,11 @@ const Record = ({item, field, label}) => {
   return (
     <li className="list-group-item">
         <span className="term">{label}</span>
-        {/* <span>{item[field]}</span> */}
         <span>{item[field]}</span>
       </li>
   );
 };
-export {Record};
+export { Record };
 
 export default class ItemDetails extends Component {
 
@@ -27,19 +26,19 @@ export default class ItemDetails extends Component {
     loading: true
   };
 
-  componentDidMount() {
+    componentDidMount() {
     this.updateItem();
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.itemId !== prevProps.itemId) {
+    console.log(prevProps);
+    if (this.props.itemId !== prevProps.itemId || this.props.getData !== prevProps.getData || this.props.getImageUrl !== prevProps.getImageUrl) {
       this.updateItem();
     }
   }
 
   onItemLoaded = (item) => {
     const { getImageUrl } = this.props;
-    // console.log(item);
     this.setState({item, image: getImageUrl(item), loading: false});
   }
 
@@ -48,8 +47,8 @@ export default class ItemDetails extends Component {
     if (!itemId) {
       return
     }
+
     this.setState({loading: true});
-    // this.swapiService.getPerson(personId).then((person) => {this.setState({ person })})
     getData(itemId).then(this.onItemLoaded);
   }
 
@@ -60,7 +59,6 @@ export default class ItemDetails extends Component {
 
     if (!item) {
       return (
-        // <span>Select a person from a list</span>
         <div className="select-item">
           <div>
             <span>Select a item from a list</span>
@@ -72,7 +70,6 @@ export default class ItemDetails extends Component {
       )
     }
 
-    // const { id, name, gender, birthYear, eyeColor } = this.state.person;
     return (
       <div>
         <div className="spinner">{spinner}</div>
@@ -84,7 +81,7 @@ export default class ItemDetails extends Component {
 
 
 const ItemView = ({item, image, children}) => {
-  const {id, name, gender, birthYear, eyeColor} = item;
+  const { name } = item;
   return (
     // <React.Fragment>
       <div className="item-details card">

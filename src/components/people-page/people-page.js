@@ -89,9 +89,9 @@ export default class PeoplePage extends Component {
     // )
 
     return (
-      // <ErrorBoundry>
+      <ErrorBoundry>
         <Row left={itemList} right={personDetails} />
-      // </ErrorBoundry>
+      </ErrorBoundry>
     );
   }
 }
