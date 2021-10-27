@@ -2,38 +2,17 @@ import React from "react";
 
 import Header from "../header";
 import RandomPlanet from "../random-planet";
-// import ItemList from '../item-list';
-// import ItemDetails, { Record } from "../item-details/item-details";
-// import ErrorButton from "../error-button";
 import ErrorIndicator from "../error-indicator";
-// import PeoplePage from "../people-page";
 import SwapiService from "../../services/swapi-service";
 import DummySwapiService from '../../services/dummy-swapi-service';
-// import Row from "../row";
 import "./app.css";
-// import ItemList from "../item-list";
-import {
-  SwapiServiceProvider,
-  // SwapiServiceConsumer,
-} from "../swapi-service-context";
-// import ItemDetails from "../item-details/item-details";
-
-import {
-  PersonDetails,
-  PlanetDetails,
-  StarshipDetails,
-  PersonList,
-  PlanetList,
-  StarshipList,
-} from "../sw-components";
+import { SwapiServiceProvider } from "../swapi-service-context";
+import { PeoplePage, PlanetsPage, StarshipsPage } from "../pages";
 import ErrorBoundry from "../error-boundry/error-boundry";
-
 export default class App extends React.Component {
-  // swapiService = new DummySwapiService()
 
   state = {
-    showRandomPlanet: true,
-    swapiService: new DummySwapiService(),
+    swapiService: new SwapiService(),
     // selectedPerson: Math.floor(Math.random()*10)+1,
     hasError: false
   };
@@ -41,23 +20,19 @@ export default class App extends React.Component {
   onServiceChange = () => {
     this.setState((state) => {
       const Service = state.swapiService instanceof SwapiService ? DummySwapiService : SwapiService;
-
-      console.log("switched to", Service.name)
-
       return {
         swapiService: new Service()
       }
     });
-    // console.log("Change Context Value");
   }
 
-  toggleRandomPlanet = () => {
-    this.setState((state) => {
-      return {
-        showRandomPlanet: !state.showRandomPlanet,
-      };
-    });
-  };
+  // toggleRandomPlanet = () => {
+  //   this.setState((state) => {
+  //     return {
+  //       showRandomPlanet: !state.showRandomPlanet,
+  //     };
+  //   });
+  // };
   // onPersonSelected = (id) => {
   //   this.setState({
   //     selectedPerson: id
@@ -73,14 +48,14 @@ export default class App extends React.Component {
       return <ErrorIndicator />;
     }
 
-    const planet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
+    // const planet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
 
-    const {
-      getPerson,
-      getStarship,
-      getPersonImage,
-      getStarshipImage
-    } = this.state.swapiService;
+    // const {
+    //   getPerson,
+    //   getStarship,
+    //   getPersonImage,
+    //   getStarshipImage
+    // } = this.state.swapiService;
 
     // const personDetails = (
     //   <ItemDetails itemId={11} getData={getPerson} getImageUrl={getPersonImage}>
@@ -129,19 +104,23 @@ export default class App extends React.Component {
           <div className="stardb-app">
             <Header onServiceChange={this.onServiceChange}/>
 
-            {planet}
+            <RandomPlanet />
 
-            <PersonDetails itemId={11} />
+            <PeoplePage />
+            <PlanetsPage />
+            <StarshipsPage />
 
-            <PlanetDetails itemId={5} />
+            {/* <PersonDetails itemId={11} /> */}
 
-            <StarshipDetails itemId={9} />
+            {/* <PlanetDetails itemId={5} />
 
-            <PersonList />
+            <StarshipDetails itemId={9} /> */}
 
-            <PlanetList />
+            {/* <PersonList /> */}
 
-            <StarshipList />
+            {/* <PlanetList />
+
+            <StarshipList /> */}
 
             {/* { planet }
         <div className="row mb2 button-row">

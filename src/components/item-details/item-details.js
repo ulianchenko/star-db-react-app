@@ -31,7 +31,7 @@ export default class ItemDetails extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log(prevProps);
+    // console.log(prevProps);
     if (this.props.itemId !== prevProps.itemId || this.props.getData !== prevProps.getData || this.props.getImageUrl !== prevProps.getImageUrl) {
       this.updateItem();
     }
@@ -61,7 +61,7 @@ export default class ItemDetails extends Component {
       return (
         <div className="select-item">
           <div>
-            <span>Select a item from a list</span>
+            <span>Select an item from a list</span>
           </div>
           <div className="spinner">
             {spinner}
