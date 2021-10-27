@@ -1,21 +1,11 @@
 import React from 'react';
 import ItemList from '../item-list';
-import { withData, withSwapiService } from '../hoc-helpers';
+import { withData, withSwapiService, compose, withChildFunction } from '../hoc-helpers';
 // import SwapiService from '../../services/swapi-service';
 
 // const swapiService = new SwapiService();
 
 // const { getAllPeople, getAllPlanets, getAllStarships } = swapiService;
-
-const withChildFunction = (fn) => (Wrapped) => {
-  return (props) => {
-    return (
-      <Wrapped {...props}>
-        {fn}
-      </Wrapped>
-    )
-  }
-};
 
 const mapPersonMethodsToProps = (swapiService) => {
   return {
@@ -38,22 +28,28 @@ const mapStarshipMethodsToProps = (swapiService) => {
 const renderName = (item) => <span>{item.name}</span>;
 const renderModelAndName = (item) => <span>{item.name} ({item.model})</span>;
 
-// look lesson 89
+// look lessons 89 and 90
 // const add = (a) => (b) => a+b
 
-const PersonList = withSwapiService(mapPersonMethodsToProps)(
-  withData(withChildFunction(renderName)(
-    ItemList)));
+const PersonList = compose(
+                    withSwapiService(mapPersonMethodsToProps),
+                    withData,
+                    withChildFunction(renderName)
+                  )(ItemList);
 
-const PlanetList = withSwapiService(mapPlanetMethodsToProps)(
-  withData(withChildFunction(renderName)(
-    ItemList)));
+const PlanetList = compose(
+                    withSwapiService(mapPlanetMethodsToProps),
+                    withData,
+                    withChildFunction(renderName)
+                  )(ItemList);
 
-const StarshipList = withSwapiService(mapStarshipMethodsToProps)(
-  withData(withChildFunction(renderModelAndName)(
-    ItemList)));
+const StarshipList = compose(
+                    withSwapiService(mapStarshipMethodsToProps),
+                    withData,
+                    withChildFunction(renderModelAndName)
+                  )(ItemList);
 
-export {
+export {                  
   PersonList,
   PlanetList,
   StarshipList
