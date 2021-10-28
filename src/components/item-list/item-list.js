@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types"
 import './item-list.css';
 
 const ItemList = (props) => {
@@ -23,5 +24,15 @@ const ItemList = (props) => {
   );
   
 }
+
+ItemList.defaultProps = {
+  onItemSelected: () => {}
+};
+
+ItemList.propTypes = {
+  onItemSelected: PropTypes.func, //  It means: "Is onItemSelected a function?"
+  data: PropTypes.arrayOf(PropTypes.object).isRequired, //  It means: "Is data an array of objects?" and this property is required
+  children: PropTypes.func.isRequired //It means: "Is children a function?" and this property is required
+};
 
 export default ItemList;
