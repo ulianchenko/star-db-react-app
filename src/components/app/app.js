@@ -7,14 +7,23 @@ import SwapiService from "../../services/swapi-service";
 import DummySwapiService from '../../services/dummy-swapi-service';
 import "./app.css";
 import { SwapiServiceProvider } from "../swapi-service-context";
-import { PeoplePage, PlanetsPage, StarshipsPage } from "../pages";
+import { PeoplePage, PlanetsPage, StarshipsPage, LoginPage, SecretPage } from "../pages";
 import ErrorBoundry from "../error-boundry/error-boundry";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { StarshipDetails } from "../sw-components";
 export default class App extends React.Component {
 
   state = {
     swapiService: new SwapiService(),
+    isLoggedIn: false,
     // selectedPerson: Math.floor(Math.random()*10)+1,
     hasError: false
+  };
+
+  onLogin = () => {
+    this.setState({
+      isLoggedIn: true
+    })
   };
 
   onServiceChange = () => {
@@ -98,31 +107,72 @@ export default class App extends React.Component {
     //   </ItemList>
     // );
 
+    const {isLoggedIn} = this.state;
+
     return (
       <ErrorBoundry>
         <SwapiServiceProvider value={this.state.swapiService}>
-          <div className="stardb-app">
-            <Header onServiceChange={this.onServiceChange}/>
+          <Router>
+            <div className="stardb-app">
+              <Header onServiceChange={this.onServiceChange} />
 
-            <RandomPlanet />
+              <RandomPlanet />
 
-            <PeoplePage />
-            <PlanetsPage />
-            <StarshipsPage />
+              <Switch>
+                <Route
+                  path="/"
+                  render={() => <h2>Welcome to StarDB</h2>}
+                  exact={true}
+                />
+                <Route path="/people/:id?" component={PeoplePage} />
+                <Route path="/planets" component={PlanetsPage} />
+                <Route
+                  path="/starships/"
+                  component={StarshipsPage}
+                  exact={true}
+                />
+                <Route
+                  path="/starships/:id"
+                  render={({ match, history, location }) => {
+                    const { id } = match.params;
+                    console.log(match);
+                    console.log(history);
+                    console.log(location);
+                    return <StarshipDetails itemId={id} />;
+                  }}
+                />
 
-            {/* <PersonDetails itemId={11} /> */}
+                <Route
+                  path="/login"
+                  render={() => (
+                    <LoginPage isLoggedIn={isLoggedIn} onLogin={this.onLogin} />
+                  )}
+                />
 
-            {/* <PlanetDetails itemId={5} />
+                <Route
+                  path="/secret"
+                  render={() => <SecretPage isLoggedIn={isLoggedIn} />}
+                />
+                <Route render={() => <h2>Page not found</h2>}/>
+              </Switch>
+
+              {/* <PeoplePage />
+              <PlanetsPage />
+              <StarshipsPage /> */}
+
+              {/* <PersonDetails itemId={11} /> */}
+
+              {/* <PlanetDetails itemId={5} />
 
             <StarshipDetails itemId={9} /> */}
 
-            {/* <PersonList /> */}
+              {/* <PersonList /> */}
 
-            {/* <PlanetList />
+              {/* <PlanetList />
 
             <StarshipList /> */}
 
-            {/* { planet }
+              {/* { planet }
         <div className="row mb2 button-row">
           <button
             className = "toggle-planet btn btn-warning btn-lg" onClick={this.toggleRandomPlanet}>
@@ -131,11 +181,11 @@ export default class App extends React.Component {
           <ErrorButton />
         </div> */}
 
-            {/* <PeoplePage /> */}
+              {/* <PeoplePage /> */}
 
-            {/* <Row left={peopleList} right={planetsList}/> */}
+              {/* <Row left={peopleList} right={planetsList}/> */}
 
-            {/* <div className="row mb2">
+              {/* <div className="row mb2">
         <div className="col-md-6">
           <ItemList
             onItemSelected={this.onPersonSelected}
@@ -158,7 +208,8 @@ export default class App extends React.Component {
           <ItemDetails personId={this.state.selectedPerson}/>
         </div>
       </div> */}
-          </div>
+            </div>
+          </Router>
         </SwapiServiceProvider>
       </ErrorBoundry>
     );
